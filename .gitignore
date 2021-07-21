@@ -130,6 +130,5 @@ dmypy.json
 
 # datafiles
 ars-price.log
-ars-price.txt
-ars-price.txt.log
-
+best-price.txt
+price-log.txt
