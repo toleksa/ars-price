@@ -44,4 +44,3 @@ if [ "$PRICE" -lt "$BEST_PRICE" ]; then
     echo "$PRICE `date +%Y%m%d-%H%M`"> $FILE_BEST_PRICE
 fi
 
-
