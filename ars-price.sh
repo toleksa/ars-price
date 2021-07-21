@@ -5,8 +5,8 @@ SITE="https://www.eneba.com/steam-steam-wallet-gift-card-1000-ars-key-argentina"
 
 # VARS
 PWD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-FILE_BEST_PRICE="$PWD/ars-price.txt"
-FILE_PRICE_LOG="$PWD/ars-price.txt.log"
+FILE_BEST_PRICE="$PWD/best-price.txt"
+FILE_PRICE_LOG="$PWD/price-log.txt"
 ALERT_CMD="$HOME/alert.sh"
 
 # check if 'bc' is installed
