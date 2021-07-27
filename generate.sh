@@ -1,18 +1,15 @@
 #!/bin/bash
 
-# check if 'gnuplot' is installed
-which gnuplot > /dev/null 2>&1; RC=$?
-if [ "$RC" -ne 0 ]; then
-    echo "ERR: no 'gnuplot' found in \$PATH"
+_checkInstalled(){
+  which $1 > /dev/null 2>&1; RC=$?
+  if [ "$RC" -ne 0 ]; then
+    echo "ERR: no '$1' found in \$PATH"
     exit 1
-fi
+  fi
+}
 
-# check if 'rsvg-convert' is installed
-which rsvg-convert > /dev/null 2>&1; RC=$?
-if [ "$RC" -ne 0 ]; then
-    echo "ERR: no 'rsvg-convert' found in \$PATH"
-    exit 1
-fi
+_checkInstalled gnuplot
+_checkInstalled rsvg-convert
 
 ARG=""
 ARG="$ARG set style line 1 lt 1 lw 3 pt 3 linecolor rgb 'blue' ;"
