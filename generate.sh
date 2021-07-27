@@ -14,5 +14,16 @@ if [ "$RC" -ne 0 ]; then
     exit 1
 fi
 
-cat price-log.txt | gawk '{ print $1 }' | gnuplot -p -e 'set style line 1 lt 1 lw 3 pt 3 linecolor rgb "blue" ; set title "ARS SteamCode price" ; set ylabel "EuroCents" ; set term svg; set output "|rsvg-convert -f png -o out.png /dev/stdin"; plot "/dev/stdin" with lines' && chcon -t httpd_sys_content_t out.png && mv out.png /var/www/html/ 
+ARG=""
+ARG="$ARG set style line 1 lt 1 lw 3 pt 3 linecolor rgb 'blue' ;"
+ARG="$ARG set title 'ARS SteamCode price - `date +%Y%m%d-%H:%M:%S`' ;"
+ARG="$ARG set ylabel 'EuroCents' ;"
+ARG="$ARG set term svg; set output '|rsvg-convert -f png -o out.png /dev/stdin';"
+ARG="$ARG plot '/dev/stdin' with lines"
+
+cat price-log.txt \
+  | gawk '{ print $1 }' \
+  | gnuplot -p -e "$ARG" \
+  && chcon -t httpd_sys_content_t out.png \
+  && mv out.png /var/www/html/ 
 
