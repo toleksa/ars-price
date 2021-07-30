@@ -18,8 +18,7 @@ ARG="$ARG set ylabel 'EuroCents' ;"
 ARG="$ARG set term svg; set output '|rsvg-convert -f png -o out.png /dev/stdin';"
 ARG="$ARG plot '/dev/stdin' with lines"
 
-cat price-log.txt \
-  | gawk '{ print $1 }' \
+gawk '{ print $1 }' price-log.txt \
   | gnuplot -p -e "$ARG" \
   && chcon -t httpd_sys_content_t out.png \
   && mv out.png /var/www/html/ 
