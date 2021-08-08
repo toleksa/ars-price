@@ -16,7 +16,7 @@ if [ "$RC" -ne 0 ]; then
     exit 1
 fi
 
-# get price #20210808 - second method seems to generate two numbers, failback to first method
+# get price #20210808 - second method seems to generate sometimes two numbers, failback to first method
 PRICE=$(curl --silent "$SITE" | grep 'itemProp="price"' | sed -e 's/meta itemProp="price" content="/\n/g' | gawk -F"\"" '{ print $1 }' | grep -Ev '^$' | head -n 2 | tail -n 1 )
 #PRICE=$(curl --silent "$SITE" \
 #        | grep 'itemProp="price"' \

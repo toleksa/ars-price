@@ -7,6 +7,9 @@ ARG="$ARG set ylabel 'EuroCents' ;"
 ARG="$ARG set term png size 1200,800;"
 ARG="$ARG plot '/dev/stdin' with lines"
 
+#TODO: try to not draw 0 values
+
+# using https://hub.docker.com/r/jess/gnuplot
 gawk '{ print $1 }' price-log.txt | docker run -i --name gnuplot jess/gnuplot -p -e "$ARG" > /www/files/out.png
 docker rm gnuplot
 
