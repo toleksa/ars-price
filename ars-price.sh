@@ -34,6 +34,11 @@ PRICE=`echo "($PRICE*100)/1" | bc`
 # write current PRICE to log
 echo "$PRICE `date +%Y%m%d-%H%M`">> $FILE_PRICE_LOG
 
+if [ -x "$PWD/generate.sh" ]; then
+    cd "$PWD" && ./generate.sh
+    cd -
+fi
+
 # 0 means bad reading, so don't update best-price
 if [ "$PRICE" -eq 0 ]; then
     exit 0
