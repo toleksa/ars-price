@@ -16,6 +16,12 @@ if [ "$RC" -ne 0 ]; then
     exit 1
 fi
 
+EURARS_TEMP=$(curl --silent -A 'Mozilla/5.0 (MSIE; Windows 10)' -L "https://www.google.com/search?q=1000+ars+to+eur" | gawk -F"data-value" '{ print $2 }' | gawk -F"</span>" '{ print $1 }' | gawk -F">" '{ print $2 }' | sed -e 's/\.//g' | xargs)
+EURARS=$EURARS_TEMP
+if [ "$EURARS" == '' ]; then
+    PRICE=0
+fi
+
 # get price #20210808 - second method seems to generate sometimes two numbers, failback to first method
 PRICE=$(curl --silent "$SITE" | grep 'itemProp="price"' | sed -e 's/meta itemProp="price" content="/\n/g' | gawk -F"\"" '{ print $1 }' | grep -Ev '^$' | head -n 2 | tail -n 1 )
 #PRICE=$(curl --silent "$SITE" \
@@ -32,7 +38,7 @@ fi
 PRICE=`echo "($PRICE*100)/1" | bc`
 
 # write current PRICE to log
-echo "$PRICE `date +%Y%m%d-%H%M`">> $FILE_PRICE_LOG
+echo "$PRICE `date +%Y%m%d-%H%M` $EURARS">> $FILE_PRICE_LOG
 
 if [ -x "$PWD/generate.sh" ]; then
     cd "$PWD" && ./generate.sh
