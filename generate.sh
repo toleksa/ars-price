@@ -24,7 +24,6 @@ ARG="$ARG set datafile separator whitespace;"
 ARG="$ARG set term png medium size 1200,800;"
 ARG="$ARG plot '-' using 1:2 with lines lt 1 lw 2 linecolor rgb 'blue' title 'Price in Eurocents', '-' using 1:3 with lines lt 1 lw 2 linecolor rgb 'red' title 'EUR/ARS'"
 
-# using https://hub.docker.com/r/jess/gnuplot
 CMD="gawk '{ if (\$1 == 0) next; print \$2\" \"\$1\" \"\$3 }' price-log.txt"
 (eval $CMD ; echo 'e'; eval $CMD) | cat | docker run -i --name gnuplot toleksa/gnuplot -p -e "$ARG" > /www/files/out.png
 docker rm gnuplot
