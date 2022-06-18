@@ -22,8 +22,11 @@ if [ "$EURARS" == '' ]; then
     PRICE=0
 fi
 
+PRICE=$(curl --silent -A 'Mozilla/5.0 (MSIE; Windows 10)' -L "$SITE" | sed -e 's/div/\n/g' | grep -i "lowest price" | grep "€" | gawk -F"€" '{ print $2 }' | gawk -F"<" '{ print $1 }')
+#PRICE=$(curl --silent "$SITE" | sed -e 's/>/\n/g' | grep -e "^€" | gawk -F"<" '{ print $1 }' | gawk -F"€" '{ print $2 }' | sort -n | head -n 1)
+# 20220302 - below stopped working
+#PRICE=$(curl --silent "$SITE" | grep 'itemProp="price"' | sed -e 's/meta itemProp="price" content="/\n/g' | gawk -F"\"" '{ print $1 }' | grep -Ev '^$' | head -n 2 | tail -n 1 )
 # get price #20210808 - second method seems to generate sometimes two numbers, failback to first method
-PRICE=$(curl --silent "$SITE" | grep 'itemProp="price"' | sed -e 's/meta itemProp="price" content="/\n/g' | gawk -F"\"" '{ print $1 }' | grep -Ev '^$' | head -n 2 | tail -n 1 )
 #PRICE=$(curl --silent "$SITE" \
 #        | grep 'itemProp="price"' \
 #        | gawk -F"meta itemProp=\"price\" content=\"" ' { print $2 }' \
@@ -31,7 +34,10 @@ PRICE=$(curl --silent "$SITE" | grep 'itemProp="price"' | sed -e 's/meta itemPro
 
 # change empty to 0, because empty/no value breaks chart generator
 if [ "$PRICE" == '' ]; then
-    PRICE=0
+    PRICE=$(curl --silent -A 'Mozilla/5.0 (MSIE; Windows 10)' -L "$SITE" | sed -e 's/div/\n/g' | grep -i "lowest price" | grep "€" | gawk -F"€" '{ print $2 }' | gawk -F"<" '{ print $1 }')
+    if [ "$PRICE" == '' ]; then
+        PRICE=0
+    fi
 fi 
 
 # convert Euro to Cents
