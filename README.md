@@ -1,4 +1,5 @@
 ## ars-price
 Price checker for ARS SteamCodes
 
-# seems to be moved to docker repo
+# moved to docker repo -> https://github.com/toleksa/docker/tree/main/ars-price
+
